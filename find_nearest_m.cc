@@ -33,17 +33,17 @@ std::pair<BST::iterator,BST::iterator> find_nearest_m(const BST& bst,const Key& 
  
 	}
 
-	if(m == 0)
+	if(m <= 0) //m可能为-1 ,因为31行
 	{
-		return std::make_pair(l++,r)
+		return std::make_pair(std::advance(l++,-m),r)
 	}
 	else if(l != bst.rend()) //m不为0，且左面不空，
 	{
-		return std::make_pair(std::advance(l,1-m),r);
+		return std::make_pair(std::advance(l++,-m),r);
 	}
 	else //m不为0，且右面不为空。
 	{
-		return std::make_pair(l,std::advance(r,m));
+		return std::make_pair(i++,std::advance(r,m));
 	}
 
 } 
@@ -52,6 +52,6 @@ std::pair<BST::iterator,BST::iterator> find_nearest_m(const BST& bst,const Key& 
 int int main(int argc, char const *argv[])
 {
 	
-	
+
 	return 0;
 }
