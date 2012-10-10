@@ -1,3 +1,7 @@
+/*
+给一个N个节点的二叉搜索树（BST/Binary Search Tree），给一个Key，返回与key最接近的m个节点（m<N）。
+*/
+
 #include <iterator>
 #include <map>
 #include <iostream>
