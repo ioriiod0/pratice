@@ -6,6 +6,7 @@
 #include <map>
 #include <iostream>
 #include <utility>
+#include <string>
 
 
 
@@ -66,16 +67,16 @@ find_nearest_n(std::map<K,V>& bst,const K& key,int m)
 int main(int argc, char const *argv[])
 {
 	
-	typedef typename std::map<int,int>::iterator iterator;
-	std::map<int,int> datas;
+	typedef typename std::map<int,std::string>::iterator iterator;
+	std::map<int,std::string> datas;
 
 
-	datas[1] = 1;
-	datas[3] = 3;
-	datas[4] = 4;
-	datas[5] = 5;
-	datas[8] = 8;
-	datas[10] = 10;
+	datas[1] = "ONE";
+	datas[3] = "TRHEE";
+	datas[4] = "FOUR";
+	datas[5] = "FILE";
+	datas[8] = "EIGHT";
+	datas[10] = "TEN";
 
 
 	{
@@ -83,7 +84,7 @@ int main(int argc, char const *argv[])
 
 		for(iterator it = ret.first;it != ret.second;++it)
 		{
-			std::cout<<it->first<<std::endl;
+			std::cout<<it->first<<":"<<it->second<<std::endl;
 		}
 		std::cout<<"===========NONE============="<<std::endl;
 
@@ -94,7 +95,7 @@ int main(int argc, char const *argv[])
 
 		for(iterator it = ret.first;it != ret.second;++it)
 		{
-			std::cout<<it->first<<std::endl;
+			std::cout<<it->first<<":"<<it->second<<std::endl;
 		}
 		std::cout<<"========================"<<std::endl;
 
@@ -105,7 +106,7 @@ int main(int argc, char const *argv[])
 
 		for(iterator it = ret.first;it != ret.second;++it)
 		{
-			std::cout<<it->first<<std::endl;
+			std::cout<<it->first<<":"<<it->second<<std::endl;
 		}
 		std::cout<<"========================"<<std::endl;
 
@@ -117,7 +118,7 @@ int main(int argc, char const *argv[])
 
 		for(iterator it = ret.first;it != ret.second;++it)
 		{
-			std::cout<<it->first<<std::endl;
+			std::cout<<it->first<<":"<<it->second<<std::endl;
 		}
 		std::cout<<"========================"<<std::endl;
 	}
@@ -128,7 +129,7 @@ int main(int argc, char const *argv[])
 
 		for(iterator it = ret.first;it != ret.second;++it)
 		{
-			std::cout<<it->first<<std::endl;
+			std::cout<<it->first<<":"<<it->second<<std::endl;
 		}
 		std::cout<<"========================"<<std::endl;
 
@@ -140,7 +141,7 @@ int main(int argc, char const *argv[])
 
 		for(iterator it = ret.first;it != ret.second;++it)
 		{
-			std::cout<<it->first<<std::endl;
+			std::cout<<it->first<<":"<<it->second<<std::endl;
 		}
 		std::cout<<"========================"<<std::endl;
 
