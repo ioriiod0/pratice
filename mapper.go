@@ -10,10 +10,14 @@ package main
 
 import (
 	"bufio"
+	"encoding/gob"
+	"encoding/json"
+	"flag"
 	"fmt"
 	"hash/crc32"
 	"io"
 	"log"
+	"net"
 	"os"
 	"runtime"
 	"strconv"
@@ -90,42 +94,58 @@ func mapper(id int, in io.Reader, outs []io.Writer, signals chan int) {
 
 }
 
-func usage() {
-	fmt.Println("usage: mapper [N=?] where ? is a number >= 1")
-	fmt.Println("examle: mapper N=10")
+var (
+	config_file_path = flag.String("config", "config.json", "config file path")
+	num_of_cpus      = flag.Uint("cpus", runtime.NumCPU(), "num of cpus")
+)
+
+type Config struct {
+	inputs, workers []string
+}
+
+func load_config(file_name string) (*Config, error) {
+	file, err := os.Open(file_name)
+	if err != nil {
+		return nil, err
+	}
+	dec := json.NewDecoder(file)
+	config = new(Config)
+	if err := dec.Decode(config); err != nil {
+		return nil, err
+	}
+	return config, nil
+}
+
+type Package int8
+
+type Worker struct {
+	addr string
+	enc  *gob.Encoder
+}
+
+type Job struct {
+	signal  chan bool
+	input   string
+	workers string
 }
 
 func main() {
 
-	runtime.GOMAXPROCS(runtime.NumCPU())
+	flag.Parse()
+	runtime.GOMAXPROCS(num_of_cpus)
 	log.SetOutput(os.Stderr)
 
-	var num_of_outputs uint32
-
-	if len(os.Args) != 2 {
-		usage()
-		os.Exit(-1)
+	config, err := load_config(config_file_path)
+	if err != nil {
+		log.Fataln(err)
 	}
 
-	parts := strings.Split(os.Args[1], "=")
-	if len(parts) != 2 {
-		usage()
-		os.Exit(-1)
-	}
-
-	if tmp, err := strconv.ParseUint(parts[1], 10, 32); err != nil {
-		usage()
-		os.Exit(-1)
-	} else {
-		num_of_outputs = uint32(tmp)
-	}
-
-	inputs, err := open_input_files(os.Stdin)
+	inputs, err := open_inputs(config.inputs)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	outputs, err := open_output_files(num_of_outputs)
+	outputs, err := open_outputs(config.outputs)
 	if err != nil {
 		log.Fatalln(err)
 	}

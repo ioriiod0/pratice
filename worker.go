@@ -34,10 +34,11 @@ func (self *TrieNode) Find(key byte) *TrieNode {
 	if self.nodes[offset] == nil {
 		self.nodes[offset] = NewTrieNode(key)
 	}
-	return self.node[offset]
+    return self.node[offset]
 }
 
 ///////////////////////////////////////////////
+
 
 type Query struct {
     Freq int
@@ -47,7 +48,7 @@ type Query struct {
 type Querys []Query
 
 func (self *Querys) Sort() {
-	sortutil.DescByField(self, "Freq")
+    sortutil.DescByField(self, "Freq")
 }
 
 func (self *Querys) Each(f func(Query)) {
@@ -59,12 +60,12 @@ func (self *Querys) Each(f func(Query)) {
 
 ////////////////////////////////////////////////
 type Trie struct {
-	root   *TrieNode
-	querys []Query
+    root   *TrieNode
+    querys []Query
 }
 
 func NewTrie(size) {
-	return &Trie{NewTrieNode(), make([]Query, size)}
+    return &Trie{NewTrieNode(), make([]Query, size)}
 }
 
 func (self *Trie) Insert(str string) {
@@ -83,7 +84,7 @@ func (self *Trie) Insert(str string) {
 ////////////////////////////////////////
 
 type Response struct {
-    Req int
+    Seq int
 }
 
 func HandleInput(trie *Trie,ch chan string,out_addr string) {
